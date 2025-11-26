@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    container_name: family_photos
+    volumes:
+      - ./media:/app/media
+      - ./db.sqlite3:/app/db.sqlite3
+    ports:
+      - "8091:8000"
+    restart: unless-stopped
+    env_file:
+      - .env

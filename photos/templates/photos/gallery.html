@@ -1,0 +1,48 @@
+{% extends 'photos/base.html' %}
+
+{% block content %}
+<div class="gallery-grid" id="galleryGrid">
+    {% for photo in photos %}
+    <div class="gallery-item" onclick="openModal('{{ photo.image.url }}', '{{ photo.id }}')">
+        <img src="{{ photo.image.url }}" alt="Photo by {{ photo.uploader_name }}" loading="lazy">
+        <div id="comments-{{ photo.id }}" class="hidden">
+            {% for comment in photo.comments.all %}
+            <div class="comment">
+                <strong>{{ comment.author_name }}:</strong> {{ comment.text }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- FAB & Input -->
+<input type="file" id="fileElem" multiple accept="image/*" style="display:none">
+<button id="uploadBtn" class="fab">+</button>
+
+<!-- Progress Overlay -->
+<div id="progressOverlay" class="hidden">
+    Uploading <span id="uploadCount">0</span> photos...
+</div>
+
+<!-- Modal -->
+<dialog id="photoModal" class="modal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeModal()">✕</button>
+        <img id="modalImage" src="" alt="Full size">
+
+        <div class="comments-section">
+            <div id="modalComments" class="comments-list"></div>
+            <div class="comment-form">
+                <input type="text" id="commentInput" placeholder="Add a comment...">
+                <button id="sendCommentBtn">Send</button>
+            </div>
+        </div>
+    </div>
+</dialog>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/upload.js"></script>
+<script src="/static/js/gallery.js"></script>
+{% endblock %}

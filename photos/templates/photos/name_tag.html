@@ -1,0 +1,19 @@
+{% extends 'photos/base.html' %}
+
+{% block content %}
+<div class="auth-container">
+    <h1>Hello!</h1>
+    <p>Who are you?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.name }}
+            {% if form.name.errors %}
+            <div class="error">{{ form.name.errors.0 }}</div>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Start Uploading</button>
+    </form>
+</div>
+{% endblock %}

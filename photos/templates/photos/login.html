@@ -1,0 +1,19 @@
+{% extends 'photos/base.html' %}
+
+{% block content %}
+<div class="auth-container">
+    <h1>Family Photos</h1>
+    <p>Enter the family password to join.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.password }}
+            {% if form.password.errors %}
+            <div class="error">{{ form.password.errors.0 }}</div>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Enter</button>
+    </form>
+</div>
+{% endblock %}

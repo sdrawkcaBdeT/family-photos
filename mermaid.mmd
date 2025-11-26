@@ -1,0 +1,31 @@
+mermaid```
+sequenceDiagram
+    participant iPhone as Grandma's iPhone
+    participant View as Django View (Upload)
+    participant Model as Photo Model (Logic)
+    participant Disk as NAS Storage (Volume)
+    participant DB as SQLite Database
+
+    Note over iPhone: Grandma selects "photo.heic"
+    iPhone->>View: POST /upload/ (multipart/form-data)
+    
+    activate View
+    View->>Model: Create Photo Object
+    
+    activate Model
+    Note over Model: 1. Detects .heic extension
+    Note over Model: 2. Converts to .jpg (Pillow)
+    Note over Model: 3. Rotates based on EXIF
+    
+    Model->>Disk: Save "photo.jpg" to /app/media/
+    Disk-->>Model: File Path Saved
+    
+    Model->>DB: INSERT INTO photos_photo (image, uploader_name...)
+    DB-->>Model: ID: 42
+    deactivate Model
+    
+    View-->>iPhone: 200 OK (JSON)
+    deactivate View
+    
+    Note over iPhone: Gallery Auto-Refreshes
+```
